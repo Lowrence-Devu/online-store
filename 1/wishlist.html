@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist - Clothing Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="wishlist-page">
+    <header>
+        <h1>Devu Brothers</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="1.html#products">Products</a></li>
+            <li><a href="1.html#aboutus">About Us</a></li>
+            <li><a href="1.html#contact">Contact<img src="contact.png" width="20px" height="20px"></a></li>
+            <li><a href="cart.html">Cart</a><img src="th-6.jpeg" width="20px" height="20px"></li>
+            <li><a href="checkout.html">Checkout</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="wishlist">
+            <h2>Your Wishlist :</h2>
+            <div id="wishlist-items">
+                <!-- Wishlist items will be displayed here -->
+            </div>
+        </section>
+        <button class="clear-wishlist-btn" onclick="clearWishlist()">Clear Wishlist</button>
+        <a href="1.html#products"><button class="back-btn">Back to shopping</button></a>
+    </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", () =>{
+            const wishlistItems = document.getElementById("wishlist-items");
+            let wishlist = JSON.parse(localStorage.getItem("wishlist")) || []; 
+ 
+            if(wishlist.length == 0){
+                wishlistItem.innerHTML = '<P>Wishlist is empty</P>';
+            } else{
+                wishlist.forEach((product, index) => {
+                const wishlistItem = document.createElement("div");
+                 
+                wishlistItem.classList.add("wishlist-item");
+                wishlistItem.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <br> 
+                    <h3>${product.name}</h3>
+                    <br>
+                    <p>Price: ${product.price}</p>
+                    <br> 
+                    <button class="addtocart-btn" data-index="${index}">Add to Cart</button>
+                    <button class="remove-btn" data-index="${index}">Remove</button>
+                `;
+                wishlistItems.appendChild(wishlistItem);
+            });
+
+            const removeButtons = document.querySelectorAll('.remove-btn');
+            removeButtons.forEach(button => {
+                button.addEventListener('click', removeFromWishlist);
+            });
+
+            const addToCartButtons = document.querySelectorAll('.addtocart-btn');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', addToCart);
+            });
+
+            function removeFromWishlist(event) {
+                const index = event.target.dataset.index;
+                wishlist.splice(index, 1);
+                localStorage.setItem("wishlist", JSON.stringify(wishlist));
+                location.reload();
+            }
+
+            function clearWishlist() {
+                localStorage.removeItem('wishlist');
+                location.reload(); // Corrected to actually reload the page
+            }
+ 
+
+            function addToCart(event) {
+                const index = event.target.dataset.index;
+                const product = wishlist[index];
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.push(product);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert('Product added to cart');
+            }
+        }
+        });
+
+        function clearWishlist() {
+            localStorage.removeItem('wishlist');
+            location.reload(); // Corrected to actually reload the page
+        }
+    </script>
+</body>
+</html>

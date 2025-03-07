@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Clothing Shop</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .cart-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-item img {
+            max-width: 50px;
+            margin-bottom: 10px;
+        }
+        .cart-item h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .cart-item p {
+            margin: 5px 0;
+        }
+        .cart-item div {
+            margin-top: 10px;
+        }
+        .cart-item button {
+            margin-right: 5px;
+        }
+        .total-price {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        @media (max-width: 600px) {
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .cart-item img {
+                max-width: 100%;
+            }
+            .cart-item h3, .cart-item p, .cart-item div {
+                width: 100%;
+                text-align: left;
+            }
+            .cart-item button {
+                margin-top: 5px;
+            }
+            .total-price {
+                text-align: center;
+            }
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            max-width: 500px;
+            margin: auto;
+            animation: zoomIn 0.5s ease-in-out;
+        }
+        .modal-content h2 {
+            margin: 0 0 20px;
+        }
+        .close-btn {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .close-btn:hover {
+            background-color: #333;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        @keyframes zoomIn {
+            0% {
+                transform: scale(0.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        @keyframes bounceIn {
+            0%, 20%, 40%, 60%, 80%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .modal-content {
+            animation: bounceIn 1s ease-in-out;
+        }
+    </style>
+</head>
+<body class="checkout-page">
+    <header>
+        <h1>Devu Brothers</h1>
+        
+    </header>
+    <hr>
+    <nav>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="1.html#products">Products</a></li>
+            <li><a href="1.html#aboutus">About Us</a></li>
+            <li><a href="1.html#contact">Contact<img src="contact.png" width="20px" height="20px"></a></li>
+            <li><a href="cart.html">Cart</a><img src="th-6.jpeg" width="20px" height="20px"></li>
+            <li><a href="wishlist.html">Wishlist</a></li>
+            
+        </ul>
+    </nav>
+    <main>
+          <br>
+        <section id="checkout">
+            <h2>Checkout</h2>
+            <div id="cart-items">
+                <!-- Cart items will be displayed here -->
+            </div>
+            <div class="total-price" id="total-price">Total Price: $0</div>
+            <form id="checkout-form">
+                <fieldset>
+                    <legend>Personal Details</legend>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City:</label>
+                        <input type="text" id="city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State:</label>
+                        <input type="text" id="state" name="state" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="zip">Zip Code:</label>
+                        <input type="text" id="zip" name="zip" required>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Online Payment Options</legend>
+                    <div class="form-group">
+                        <input type="radio" id="card" name="payment-method" value="card" required>
+                        <label for="card">Credit Card</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" id="debit-card" name="payment-method" value="debit-card" required>
+                        <label for="debit-card">Debit Card</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" id="phonepe" name="payment-method" value="phonepe" required>
+                        <label for="phonepe">PhonePe</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" id="googlepay" name="payment-method" value="googlepay" required>
+                        <label for="googlepay">Google Pay</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" id="paytm" name="payment-method" value="paytm" required>
+                        <label for="paytm">Paytm</label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Pay On Delivery</legend>
+                    <div class="form-group">
+                        <input type="radio" id="cod" name="payment-method" value="cod" required>
+                        <label for="cod">Cash on Delivery</label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Shipping Options</legend>
+                    <div class="form-group">
+                        <input type="radio" id="standard" name="shipping-method" value="standard" required>
+                        <label for="standard">Standard Shipping</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="radio" id="express" name="shipping-method" value="express" required>
+                        <label for="express">Express Shipping</label>
+                    </div>
+                </fieldset>
+                <button type="submit">Place Order</button>
+            </form>
+            <a href="cart.html"><button class="back-btn">Back to Cart</button></a>
+        </section>
+    </main>
+    <footer>
+        <div class="footer">
+            <p>&copy; 2025 Clothing Shop. All rights reserved.</p>
+        </div>
+    </footer>
+    <!-- Modal for Order Success -->
+    <div id="order-success-modal" class="modal">
+        <div class="modal-content">
+            <h2>Order Placed Successfully!</h2>
+            <p>Thank you for your purchase. Your order has been placed successfully.</p>
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const totalPriceElement = document.getElementById('total-price');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let totalPrice = 0;
+
+            if (cart.length === 0) {
+                alert('Your cart is currently empty. Please add items to your cart before proceeding to checkout.');
+                window.location.href = 'cart.html'; // Redirect to cart page
+            } else {
+                cart = cart.filter(item => item.quantity > 0); // Filter out items with zero quantity
+                cart.forEach((item, index) => {
+                    const itemElement = document.createElement('div');
+                    itemElement.classList.add('cart-item');
+                    itemElement.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}">
+                        <h3>${item.name}</h3>
+                        <p>Price: ${item.price}</p>
+                        <p>Quantity: ${item.quantity}</p>
+                        <div>
+                            <button class="decrease-qty" data-index="${index}">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="increase-qty" data-index="${index}">+</button>
+                        </div>
+                        <button class="remove-btn" data-index="${index}">Remove</button>
+                    `;
+                    cartItemsContainer.appendChild(itemElement);
+
+                    // Calculate total price
+                    const price = parseFloat(item.price.replace('$', ''));
+                    totalPrice += price * item.quantity;
+                });
+
+                totalPriceElement.textContent = `Total Price: $${totalPrice.toFixed(2)}`;
+
+                const removeButtons = document.querySelectorAll('.remove-btn');
+                removeButtons.forEach(button => {
+                    button.addEventListener('click', removeFromCart);
+                });
+
+                const increaseQtyButtons = document.querySelectorAll('.increase-qty');
+                increaseQtyButtons.forEach(button => {
+                    button.addEventListener('click', increaseQuantity);
+                });
+
+                const decreaseQtyButtons = document.querySelectorAll('.decrease-qty');
+                decreaseQtyButtons.forEach(button => {
+                    button.addEventListener('click', decreaseQuantity);
+                });
+            }
+        });
+
+        function removeFromCart(event) {
+            const index = event.target.getAttribute('data-index');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            location.reload(); // Reload the page to update the cart display
+        }
+
+        function increaseQuantity(event) {
+            const index = event.target.getAttribute('data-index');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart[index].quantity += 1;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            location.reload(); // Reload the page to update the cart display
+        }
+
+        function decreaseQuantity(event) {
+            const index = event.target.getAttribute('data-index');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart[index].quantity > 0) {
+                cart[index].quantity -= 1;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                location.reload(); // Reload the page to update the cart display
+            }
+        }
+
+        document.getElementById('checkout-form').addEventListener('submit', function(event) {
+            event.preventDefault();  
+            showModal();
+            localStorage.removeItem('cart');
+            setTimeout(() => {
+                location.reload();
+            }, 3000); // Reload the page after 3 seconds
+        });
+
+        function showModal() {
+            document.getElementById('order-success-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('order-success-modal').style.display = 'none';
+        }
+
+        function search() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const items = document.querySelectorAll('.cart-item');
+
+            items.forEach(item => {
+                const itemName = item.querySelector('h3').textContent.toLowerCase();
+                if (itemName.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
