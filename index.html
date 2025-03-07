@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Clothing Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="home-page">
+     
+        
+    <main>
+        <section id="welcome">
+            
+            <div class="welcome-text">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br><br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <h3><a href="1.html#products">Products→</a></h3>
+                
+            </div>
+            
+        </section>
+    </main>
+     
+    <footer>
+      
+    </footer>
+    <script>
+        function search() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const items = document.querySelectorAll('.product, .cart-item');
+
+            items.forEach(item => {
+                const itemName = item.querySelector('h3').textContent.toLowerCase();
+                if (itemName.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            function search() {
+                const query = document.getElementById('search-input').value.toLowerCase();
+                const items = document.querySelectorAll('.product');
+    
+                items.forEach(item => {
+                    const itemName = item.querySelector('h3').textContent.toLowerCase();
+                    if (itemName.includes(query)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
