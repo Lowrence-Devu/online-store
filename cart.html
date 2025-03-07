@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Clothing Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="cart-page">
+    <header>
+        <h1>Devu Brothers</h1>
+        
+    </header>
+    <nav>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="1.html#products">Products</a></li>
+            <li><a href="1.html#aboutus">About Us</a></li>
+            <li><a href="1.html#contact">Contact<img src="contact.png" width="20px" height="20px"></a></li>
+            <li><a href="cart.html">Cart</a><img src="th-6.jpeg" width="20px" height="20px"></li>
+            <li><a href="checkout.html" id="checkout-link">Checkout</a></li>
+            <li><a href="wishlist.html">Wishlist</a></li>
+            
+        </ul>
+    </nav>
+    <main>
+         <br>
+        <section id="cart">
+            <h2>Your Cart</h2>
+            <div id="cart-items">
+                <!-- Cart items will be displayed here -->
+            </div>
+            <a href="1.html#products"><button id="continue-shopping-btn" class="continue-shopping-btn">Continue Shopping</button></a>
+            <br>
+                <div class="button">
+                <button class="clear-cart-btn" onclick="clearCart()">Clear Cart</button>
+            
+                <button class="checkout-btn" onclick="checkCartBeforeCheckout()">Checkout</button>
+     
+                </div>    
+                </section>
+    </main>
+    <hr class="section-divider">
+    <footer>
+        <div class="footer">
+            <p>&copy; 2025 Clothing Shop. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartItemsContainer = document.getElementById('cart-items');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Your cart is currently empty.</p>';
+            } else {
+                cart.forEach((item, index) => {
+                    const itemElement = document.createElement('div');
+                    itemElement.classList.add('cart-item');
+                    itemElement.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}">
+                        <br> 
+                        <h3>${item.name}</h3>
+                        <br>
+                        <p>Price: ${item.price}</p>
+                         <br> 
+                        <div>Quantity:
+                            <button class="decrease-qty" data-index="${index}">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="increase-qty" data-index="${index}">+</button>
+                        </div> 
+                        <br>
+                     
+                        <button class="remove-btn" data-index="${index}">Remove</button>
+                    `;
+                    cartItemsContainer.appendChild(itemElement);
+                });
+
+                const removeButtons = document.querySelectorAll('.remove-btn');
+                removeButtons.forEach(button => {
+                    button.addEventListener('click', removeFromCart);
+                });
+
+                const increaseQtyButtons = document.querySelectorAll('.increase-qty');
+                increaseQtyButtons.forEach(button => {
+                    button.addEventListener('click', increaseQuantity);
+                });
+
+                const decreaseQtyButtons = document.querySelectorAll('.decrease-qty');
+                decreaseQtyButtons.forEach(button => {
+                    button.addEventListener('click', decreaseQuantity);
+                });
+            }
+        });
+
+        function removeFromCart(event) {
+            const index = event.target.getAttribute('data-index');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            location.reload(); // Reload the page to update the cart display
+        }
+
+        function increaseQuantity(event) {
+            const index = event.target.getAttribute('data-index');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart[index].quantity += 1;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            location.reload(); // Reload the page to update the cart display
+        }
+
+        function decreaseQuantity(event) {
+            const index = event.target.getAttribute('data-index');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart[index].quantity > 0) {
+                cart[index].quantity -= 1;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                location.reload(); // Reload the page to update the cart display
+            }
+        }
+
+        function clearCart() {
+            localStorage.removeItem('cart');
+            location.reload(); // Reload the page to update the cart display
+        }
+
+        function checkCartBeforeCheckout() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let hasZeroQuantity = cart.some(item => item.quantity === 0);
+
+            if (hasZeroQuantity) {
+                alert('Please remove items with zero quantity before proceeding to checkout.');
+            } else {
+                window.location.href = 'checkout.html';
+            }
+        }
+
+        /*document.getElementById('search-input').addEventListener('input', search);
+
+        function search() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const items = document.querySelectorAll('.cart-item');
+
+            items.forEach(item => {
+                const itemName = item.querySelector('h3').textContent.toLowerCase();
+                if (itemName.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                } 
+            });
+        }*/
+    </script>
+</body>
+</html>
